@@ -1,0 +1,124 @@
+{% extends 'header.html' %}
+{% load static %}
+
+{% block content %}
+
+ <!-- Header Start -->
+<div class="container-fluid about-header bg-dark text-white py-5">
+  <div class="container py-5 text-center">
+    <h1 class="display-4 font-weight-bold text-white mb-4">Join Us Today</h1>
+    <p class="lead mb-0">Sign up to enjoy exclusive benefits, news updates, and more!</p>
+  </div>
+</div>
+<!-- Header End -->
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-8 col-sm-12">
+      <div class="card shadow-lg border-light rounded-4 mb-5">
+        <div class="card-body p-4">
+          {% if messages %}
+          <div class="alert alert-success" role="alert">
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          <form action="{% url 'user_action' %}" method="post" id="registrationForm" enctype="multipart/form-data" onsubmit="return validateForm()">
+            {% csrf_token %}
+
+            <div class="row mb-3">
+              <div class="form-group col-md-6">
+                <label for="name">Full Name</label>
+                <input type="text" class="form-control" id="name" name="Name" placeholder="Enter your full name" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Choose a username" required>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="form-group col-md-6">
+                <label for="phone">Phone Number</label>
+                <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required>
+                <div id="phoneError" class="text-danger small"></div>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="email">Email Address</label>
+                <input type="email" class="form-control" id="email" name="Email" placeholder="Enter your email" required>
+                <div id="emailError" class="text-danger small"></div>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="form-group col-md-6">
+                <label for="password1">Password</label>
+                <input type="password" class="form-control" id="password1" name="password" placeholder="Enter your password" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="password2">Confirm Password</label>
+                <input type="password" class="form-control" id="password2" name="cpassword" placeholder="Confirm your password" required>
+                <div id="passwordError" class="text-danger small"></div>
+              </div>
+            </div>
+
+            <div class="form-group mb-3">
+              <textarea class="form-control" id="address" name="Address" placeholder="Enter your address" rows="3" required></textarea>
+            </div>
+
+            <div class="text-center mt-3">
+              <button type="submit" class="btn btn-primary btn-lg w-25">
+                <i class="fas fa-user-plus"></i> Register
+              </button>
+            </div>
+          </form>
+
+          <div class="text-center mt-3 ">
+            <a href="{% url 'user_login' %}">Already have an account?</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function validateForm() {
+      let isValid = true;
+
+      // Validate phone number (must start with 6, 7, 8, or 9 and be 10 digits)
+      const phone = document.getElementById('phone').value;
+      const phoneError = document.getElementById('phoneError');
+      phoneError.textContent = '';
+      if (!/^[6789]\d{9}$/.test(phone)) {
+          phoneError.textContent = 'Phone number must be 10 digits and start with 6, 7, 8, or 9.';
+          isValid = false;
+      }
+
+      // Validate email (basic email format validation)
+      const email = document.getElementById('email').value;
+      const emailError = document.getElementById('emailError');
+      emailError.textContent = '';
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+          emailError.textContent = 'Please enter a valid email address.';
+          isValid = false;
+      }
+
+      // Validate password (confirm both passwords match)
+      const password1 = document.getElementById('password1').value;
+      const password2 = document.getElementById('password2').value;
+      const passwordError = document.getElementById('passwordError');
+      passwordError.textContent = '';
+      if (password1 !== password2) {
+          passwordError.textContent = 'Passwords do not match.';
+          isValid = false;
+      }
+
+      return isValid; 
+  }
+</script>
+
+{% endblock content %}
