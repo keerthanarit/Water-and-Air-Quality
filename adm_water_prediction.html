@@ -1,0 +1,85 @@
+{% extends "Master/header.html" %}
+{% block content %}
+{% load static %}
+
+<div class="pagetitle">
+    <h1>Prediction Details</h1>
+    <nav>
+
+    </nav>
+  </div>
+    <section class="section" style="min-height: 500px;">
+      <div class="row">
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+          <div class="alert alert-success"> {{message }}</div>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <div class="col-lg-12 ">
+          <div class="card">
+            <div class="card-body mt-4">
+              <table class="table table-bordered alert alert-danger">
+                <tr>
+                    <td>PH: pH level</td>
+                    <td>DO: Dissolved Oxygen</td>
+                    <td>Turb:Turbidity</td>
+                    <td>Conductivity</td>
+                    <td>Temp:Temperature</td>
+                    <td>BOD: Biological Oxygen Demand</td>
+                    <td>TDS: Total Dissolved Solids</td>
+                    <td>Nitrate</td>
+                    <td>Phosphate</td>
+                    <td>Ammonia</td>
+                    <td>RF: Random Forest</td>
+                    <td>ANN: Artificial Neural Network</td>
+                </tr>
+            </table>
+            
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="alert alert-success">
+                        <th>pH</th>
+                        <th>DO</th>
+                        <th>Turb</th>
+                        <th>Conductivity</th>
+                        <th>Temp</th>
+                        <th>BOD</th>
+                        <th>TDS</th>
+                        <th>Nitrate</th>
+                        <th>Phosphate</th>
+                        <th>Ammonia</th>
+                        <th>RF Prediction</th>
+                        <th>ANN Prediction</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for prediction in data %}
+                    <tr>
+                        <td>{{ prediction.ph }}</td>
+                        <td>{{ prediction.dissolved_oxygen }}</td>
+                        <td>{{ prediction.turbidity }}</td>
+                        <td>{{ prediction.conductivity }}</td>
+                        <td>{{ prediction.temperature }}</td>
+                        <td>{{ prediction.bod }}</td>
+                        <td>{{ prediction.tds }}</td>
+                        <td>{{ prediction.nitrate }}</td>
+                        <td>{{ prediction.phosphate }}</td>
+                        <td>{{ prediction.ammonia }}</td>
+                        <td>{{ prediction.rf_prediction }}</td>
+                        <td>{{ prediction.ann_prediction }}</td>
+                        <td>{{ prediction.created_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </table></div>
+          </div></div>
+        </div>
+      </div>
+    </section>
+
+    {% endblock %}
