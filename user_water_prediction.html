@@ -1,0 +1,187 @@
+{% extends 'user/header.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Header Start -->
+<div class="container-fluid about-header bg-dark text-white py-5">
+  <div class="container py-5 text-center">
+    <h1 class="display-4 text-light mt-5">Predict Water Quality</h1>
+    <p class="lead">Predict Quality of Water </p>
+  </div>
+</div>
+<!-- Header End -->
+
+<div class="col-6 m-auto">
+  {% if messages %}
+  <div class="alert alert-success fade-in alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+
+<div class="container">
+  <div class="row d-flex justify-content-center align-items-center min-vh-100">
+    <!-- Left Column: Image -->
+    
+
+    <!-- Right Column: Login Form -->
+    <div class="col-lg-7 col-md-7">
+      <section class="gradient-custom-dark">
+        <div class="bg-light shadow-lg rounded-lg p-3">
+          <h4 class="text-center text-dark mb-4 font-weight-bold">Predict Water Quality</h4>
+          <form method="post" action="{% url 'u_predict_water_quality' %}" id="myform1">
+            {% csrf_token %}
+            
+            <!-- Age -->
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                  <label class="form-label">pH</label>
+                  <input type="text"  class="form-control" name="ph" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                  <label class="form-label">Dissolved Oxygen</label>
+                  <input type="text"  class="form-control" name="dissolved_oxygen" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                  <label class="form-label">Turbidity (NTU)</label>
+                  <input type="text"  class="form-control" name="turbidity" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                  <label class="form-label">Conductivity</label>
+                  <input type="text"  class="form-control" name="conductivity" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                  <label class="form-label">Temperature (°C)</label>
+                  <input type="text"  class="form-control" name="temperature" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                  <label class="form-label">Biological Oxygen Demand</label>
+                  <input type="text"  class="form-control" name="bod" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                  <label class="form-label">Total Dissolved Solids</label>
+                  <input type="text"  class="form-control" name="tds" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                  <label class="form-label">Nitrate</label>
+                  <input type="text"  class="form-control" name="nitrate" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                  <label class="form-label">Phosphate</label>
+                  <input type="text"  class="form-control" name="phosphate" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                  <label class="form-label">Ammonia</label>
+                  <input type="text"  class="form-control" name="ammonia" required>
+              </div>
+            <!-- Submit Button -->
+            <div class="col-md-12 text-center py-2">
+                <button class="btn btn-info py-3 px-5" type="submit">Predict Water Quality</button>
+            </div>
+        </form>
+        <script src="{% static 'user/Validation/jquery-1.11.1.min.js' %}"></script>
+        <script src="{% static 'user/Validation/jquery_validate.js' %}"></script>
+        <script src="{% static 'user/Validation/additional_validate.js' %}"></script>
+        <script>
+        (function ($, W, D)
+        {
+        var JQUERY4U = {};
+        JQUERY4U.UTIL =
+        {
+        setupFormValidation: function ()
+        {
+        $.validator.addMethod(
+        "regex",
+        function(value, element, regexp) {
+        var check = false;
+        return this.optional(element) || regexp.test(value);
+        },
+        "Not a valid Input."
+        );
+        
+          //form validation rules
+$("#myform1").validate({
+rules: {
+
+ 
+  ph: {
+                    required: true,
+                    number: true
+                },
+                dissolved_oxygen: {
+                    required: true,
+                    number: true
+                },
+                turbidity: {
+                    required: true,
+                    number: true
+                },
+                conductivity: {
+                    required: true,
+                    number: true
+                },
+                temperature: {
+                    required: true,
+                    number: true
+                },
+                bod: {
+                    required: true,
+                    number: true
+                },
+                tds: {
+                    required: true,
+                    number: true
+                },
+                nitrate: {
+                    required: true,
+                    number: true
+                },
+                phosphate: {
+                    required: true,
+                    number: true
+                },
+                ammonia: {
+                    required: true,
+                    number: true
+                }
+            },
+            messages: {
+                ph: "Please enter a valid pH value",
+                dissolved_oxygen: "Please enter a valid Dissolved Oxygen value",
+                turbidity: "Please enter a valid Turbidity value",
+                conductivity: "Please enter a valid Conductivity value",
+                temperature: "Please enter a valid Temperature value",
+                bod: "Please enter a valid BOD value",
+                tds: "Please enter a valid TDS value",
+                nitrate: "Please enter a valid Nitrate value",
+                phosphate: "Please enter a valid Phosphate value",
+                ammonia: "Please enter a valid Ammonia value"
+            },
+      
+submitHandler: function (form) {
+form.submit();
+}
+});
+        
+    
+       
+        }
+        }
+        //when the dom has loaded setup form validation rules
+        $(D).ready(function ($) {
+        JQUERY4U.UTIL.setupFormValidation();
+        });
+        })(jQuery, window, document);
+        </script>
+         </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
