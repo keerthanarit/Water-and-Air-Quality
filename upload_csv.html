@@ -1,0 +1,131 @@
+{% extends "Master/header.html" %}
+{% block content %}
+{% load static %}
+<div class="pagetitle">
+    <h1>Upload  Data Set</h1>
+    <nav>
+
+    </nav>
+  </div>
+    <section class="section" style="min-height: 500px;">
+      <div class="row">
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+          <div class="alert alert-success"> {{message }}</div>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"> Data Set</h5>
+              <h1>Upload  Dataset</h1>
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data" id="myform1">
+        {% csrf_token %}
+        <div class="form-group col-md-6">
+            <label for="name">File Type</label>
+          <select name="type" class="form-control">
+            <option value="">--Select--</option>
+            <option value="Water">Water Dataset</option>
+            <option value="Air">Air Dataset</option>
+          </select>
+          </div>
+          <div class="form-group col-md-6">
+        <label for="file">Upload CSV File:</label>
+        <input type="file" name="file" id="file"   required>
+    </div>
+        <button type="submit" class="btn btn-info">Upload</button>
+    </form>
+
+    <script src="{% static 'assets/Validation/jquery-1.11.1.min.js' %}"></script>
+    <script src="{% static 'assets/Validation/jquery_validate.js' %}"></script>
+    <script src="{% static 'assets/Validation/additional_validate.js' %}"></script>
+    <script>
+    (function ($, W, D)
+    {
+    var JQUERY4U = {};
+    JQUERY4U.UTIL =
+    {
+    setupFormValidation: function ()
+    {
+    $.validator.addMethod(
+    "regex",
+    function(value, element, regexp) {
+    var check = false;
+    return this.optional(element) || regexp.test(value);
+    },
+    "Not a valid Input."
+    );
+    
+      //form validation rules
+$("#myform1").validate({
+rules: {
+
+
+    type: {
+                      required: true,
+                     
+
+                    },
+                    file: {
+                      required: true,
+                      extension:'csv'
+                    
+                    },
+     
+                
+                  },
+                  messages: {
+
+  },
+  
+submitHandler: function (form) {
+form.submit();
+}
+});
+    
+   
+    }
+    }
+    //when the dom has loaded setup form validation rules
+    $(D).ready(function ($) {
+    JQUERY4U.UTIL.setupFormValidation();
+    });
+    })(jQuery, window, document);
+    </script>
+    {% if data_preview %}
+        <h2>CSV Preview{{csv_path}}</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    {% for key in data_preview.0.keys %}
+                        <th>{{ key }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data_preview %}
+                    <tr>
+                        {% for value in row.values %}
+                            <td>{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+          </div></div>
+        </div>
+      </div>
+    </section>
+
+    {% endblock %}
