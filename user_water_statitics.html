@@ -1,0 +1,106 @@
+{% extends 'user/header.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Header Start -->
+<div class="container-fluid about-header bg-dark text-white py-5">
+  <div class="container py-5 text-center">
+    <h1 class="display-4 text-light mt-5">Air Quality Prediction Statistics</h1>
+    <p class="lead">Air Quality Prediction Statistics - RF </p>
+  </div>
+</div>
+<!-- Header End -->
+
+<div class="col-6 m-auto">
+  {% if messages %}
+  <div class="alert alert-success fade-in alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+
+<div class="container">
+  <div class="row d-flex justify-content-center align-items-center min-vh-100">
+    <!-- Left Column: Image -->
+    
+
+    <!-- Right Column: Login Form -->
+    <div class="col-lg-6 col-md-6">
+      <section class="gradient-custom-dark">
+        <div class="bg-light shadow-lg rounded-lg p-3">
+          <h4 class="text-center text-dark mb-4 font-weight-bold">Air Quality Prediction Statistics - RF</h4>
+
+         
+            <div class="container mt-5" data-aos="fade-up">
+            
+              
+          
+
+              <h4 class="text-center">Water Quality Prediction Statistics</h4>
+
+              {% if rf_total > 0 %}
+                  <canvas id="rfChart" width="100" height="75"></canvas>
+                  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                  <script>
+                    var ctx1 = document.getElementById('rfChart').getContext('2d');
+                    var rfChart = new Chart(ctx1, {
+                      type: 'pie',
+                      data: {
+                        labels: ['Safe', 'Unsafe'],
+                        datasets: [{
+                          data: [
+                            {{ rf_data.Safe }},
+                            {{ rf_data.Unsafe }}
+                          ],
+                          backgroundColor: ['#36a2eb', '#ff6384'],
+                        }]
+                      },
+                      options: {
+                        responsive: true,
+                      }
+                    });
+                  </script>
+              {% else %}
+                  <div class="text-center">No Data Available</div>
+              {% endif %}
+              
+              <h4 class="text-center mt-4">ANN Prediction Statistics</h4>
+              
+              {% if ann_total > 0 %}
+                  <canvas id="annChart" width="100" height="75"></canvas>
+                  <script>
+                    var ctx2 = document.getElementById('annChart').getContext('2d');
+                    var annChart = new Chart(ctx2, {
+                      type: 'pie',
+                      data: {
+                        labels: ['Safe', 'Unsafe'],
+                        datasets: [{
+                          data: [
+                            {{ ann_data.Safe }},
+                            {{ ann_data.Unsafe }}
+                          ],
+                          backgroundColor: ['#36a2eb', '#ff6384'],
+                        }]
+                      },
+                      options: {
+                        responsive: true,
+                      }
+                    });
+                  </script>
+              {% else %}
+                  <div class="text-center">No Data Available</div>
+              {% endif %}
+              
+              
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
