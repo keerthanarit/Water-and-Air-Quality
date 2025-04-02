@@ -1,0 +1,118 @@
+{% extends "Master/header.html" %}
+{% block content %}
+{% load static %}
+<div class="pagetitle">
+    <h1>Predict Air Quality</h1>
+    <nav>
+
+    </nav>
+  </div>
+    <section class="section" style="min-height: 500px;">
+      <div class="row">
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+          <div class="alert alert-success"> {{message }}</div>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Air  Data </h5>
+            
+          
+              <form method="post" action="{% url 'predict_air_quality' %}" id="airQualityForm">
+                {% csrf_token %}
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">PM2.5</label>
+                        <input type="text" class="form-control" name="pm2_5" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">PM10</label>
+                        <input type="text" class="form-control" name="pm10" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">NO2</label>
+                        <input type="text" class="form-control" name="no2" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">SO2</label>
+                        <input type="text" class="form-control" name="so2" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">CO</label>
+                        <input type="text" class="form-control" name="co" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">O3</label>
+                        <input type="text" class="form-control" name="o3" required>
+                    </div>
+                </div>
+            
+                <!-- Submit Button -->
+                <div class="col-md-12 text-center py-2">
+                    <button class="btn btn-info py-3 px-5" type="submit">Predict AQI</button>
+                </div>
+            </form>
+            
+            <!-- Include jQuery & Validation Scripts -->
+            <script src="{% static 'user/Validation/jquery-1.11.1.min.js' %}"></script>
+            <script src="{% static 'user/Validation/jquery_validate.js' %}"></script>
+            <script src="{% static 'user/Validation/additional_validate.js' %}"></script>
+            
+            <script>
+            $(document).ready(function () {
+                $("#airQualityForm").validate({
+                    rules: {
+                        pm2_5: {
+                            required: true,
+                            number: true
+                        },
+                        pm10: {
+                            required: true,
+                            number: true
+                        },
+                        no2: {
+                            required: true,
+                            number: true
+                        },
+                        so2: {
+                            required: true,
+                            number: true
+                        },
+                        co: {
+                            required: true,
+                            number: true
+                        },
+                        o3: {
+                            required: true,
+                            number: true
+                        }
+                    },
+                    messages: {
+                        pm2_5: "Please enter a valid PM2.5 value.",
+                        pm10: "Please enter a valid PM10 value.",
+                        no2: "Please enter a valid NO2 value.",
+                        so2: "Please enter a valid SO2 value.",
+                        co: "Please enter a valid CO value.",
+                        o3: "Please enter a valid O3 value."
+                    },
+                    submitHandler: function (form) {
+                        form.submit();
+                    }
+                });
+            });
+            </script>
+            
+        
+           
+          </div></div>
+        </div>
+      </div>
+    </section>
+
+    {% endblock %}
