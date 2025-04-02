@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Month-Wise Prediction Comparison</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h3>Month-Wise Prediction Comparison</h3>
+        <canvas id="barChart" style="max-height: 400px;"></canvas>
+    </div>
+
+    <script>
+        // Parse chart data passed from the view
+        const chartData = JSON.parse('{{ chart_data|safe }}');
+
+        // Extract months and initialize datasets
+        const months = Object.keys(chartData.rf).sort(); // Assuming months are consistent across all models
+        const datasets = [];
+
+        // Add datasets for each model's predictions
+        const models = ['rf', 'ann'];
+        const colors = {
+            rf: 'rgba(255, 99, 132, 0.7)',   // Random Forest
+            ann: 'rgba(54, 162, 235, 0.7)', // ANN
+            svm: 'rgba(75, 192, 192, 0.7)'  // SVM
+        };
+
+        models.forEach(model => {
+            const safe_quality = months.map(month => chartData[model][month]?.['Safe'] || 0);
+            const unsafe_quality= months.map(month => chartData[model][month]?.['Unsafe'] || 0);
+
+            datasets.push({
+                label: `${model.toUpperCase()} - Safe`,
+                data: safe_quality,
+                backgroundColor: colors[model],
+                barThickness: 20,
+                borderRadius: 5,
+            });
+
+            datasets.push({
+                label: `${model.toUpperCase()} - Unsafe`,
+                data: unsafe_quality,
+                backgroundColor: colors[model].replace('0.7', '0.4'),
+                barThickness: 20,
+                borderRadius: 5,
+            });
+        });
+
+        // Create the bar chart
+        new Chart(document.getElementById('barChart'), {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                },
+                scales: {
+                    x: {
+                        // Making the bars separate for each model by adjusting category width
+                        barPercentage: 0.3,
+                        title: {
+                            display: true,
+                            text: 'Month'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Prediction Count'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
