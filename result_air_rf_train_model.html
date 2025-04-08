@@ -1,0 +1,74 @@
+{% extends "Master/header.html" %}
+{% block content %}
+{% load static %}
+<div class="pagetitle">
+    <h1>Random Forest Model Training Results</h1>
+    <nav>
+
+    </nav>
+  </div>
+    <section class="section" style="min-height: 500px;">
+      <div class="row">
+
+ 
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Random Forest Model Training Results</h5>
+  
+   
+    <div class="container mt-5">
+   
+        <div class="card mt-4">
+            <div class="card-header">
+                <h4>Model: {{ model_name }}</h4>
+            </div>
+            <div class="card-body">
+              <p><strong>Status:</strong> {{ Status }}</p>
+                <p><strong>Accuracy:</strong> {{ accuracy }}%</p>
+                
+                <h5 class="mt-4">Classification Report:</h5>
+                <pre>{{ report }}</pre>
+            </div>
+        </div>
+    
+        <div class="text-center mt-4">
+         
+            <a href="{% url 'admin_home' %}" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+    </div>
+
+          </div></div>
+
+          <div class="image-container">
+            <h3>Confusion Matrix</h3>
+            {% if cm_image_path %}
+                <img src="/media/air_confusion_matrix.png" alt="Confusion Matrix">
+            {% else %}
+                <p>No confusion matrix available.</p>
+            {% endif %}
+
+            <h3>ROC Curve</h3>
+            {% if roc_image_path %}
+                <img src="/media/air_roc_curve.png" alt="ROC Curve">
+            {% else %}
+                <p>No ROC curve available.</p>
+            {% endif %}
+        </div>
+        <style>
+            .image-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .image-container img {
+            width: 60%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        </style>
+        </div>
+      </div>
+    </section>
+
+    {% endblock %}
