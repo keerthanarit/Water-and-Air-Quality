@@ -1,0 +1,66 @@
+{% extends "Master/header.html" %}
+{% block content %}
+{% load static %}
+
+<div class="pagetitle">
+    <h1>Air Prediction Details</h1>
+    <nav>
+
+    </nav>
+  </div>
+    <section class="section" style="min-height: 500px;">
+      <div class="row">
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+          <div class="alert alert-success"> {{message }}</div>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <div class="col-lg-12 ">
+          <div class="card">
+            <div class="card-body mt-4">
+             
+            
+            
+            
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="alert alert-success">
+                        <th>PM2.5</th>
+                        <th>PM10</th>
+                        <th>NO2</th>
+                        <th>SO2</th>
+                        <th>CO</th>
+                        <th>O3</th>
+                        <th>RF Prediction</th>
+                        <th>ANN Prediction</th>
+                        <th>ANN Probability</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for prediction in data %}
+                    <tr>
+                        <td>{{ prediction.pm25 }}</td>
+                        <td>{{ prediction.pm10 }}</td>
+                        <td>{{ prediction.no2 }}</td>
+                        <td>{{ prediction.so2 }}</td>
+                        <td>{{ prediction.co }}</td>
+                        <td>{{ prediction.o3 }}</td>
+                        <td>{{ prediction.rf_prediction }}</td>
+                        <td>{{ prediction.ann_prediction }}</td>
+                        <td>{{ prediction.ann_probability }}</td>
+                        <td>{{ prediction.predicted_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </table></div>
+          </div></div>
+        </div>
+      </div>
+    </section>
+
+    {% endblock %}
